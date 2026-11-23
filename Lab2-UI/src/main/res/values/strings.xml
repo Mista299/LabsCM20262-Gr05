@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lab2 Servicios</string>
+    <string name="app_title">Lab2 Servicios REST</string>
+
+    <string name="list_title">Publicaciones</string>
+    <string name="list_loading">Cargando publicaciones…</string>
+    <string name="list_hint">El worker actualiza los datos en segundo plano cada 15 minutos.</string>
+
+    <string name="detail_title">Detalle</string>
+    <string name="detail_author">Autor #%1$d</string>
+    <string name="detail_not_found">No se encontró la publicación.</string>
+
+    <string name="action_refresh">Actualizar ahora</string>
+    <string name="action_back">Volver</string>
+</resources>
