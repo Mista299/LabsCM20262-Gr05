@@ -27,7 +27,13 @@ class SyncPostsWorker(
             if (posts.isEmpty()) {
                 Result.success()
             } else {
-                DatabaseProvider.get(applicationContext).postDao().insertAll(posts)
+                // La marca de tiempo se asigna aqui porque el servicio REST
+                // no la envia y el valor por defecto de Kotlin no se aplica
+                // al deserializar con Gson.
+                val syncedAt = System.currentTimeMillis()
+                DatabaseProvider.get(applicationContext)
+                    .postDao()
+                    .insertAll(posts.map { it.copy(syncedAt = syncedAt) })
                 Result.success()
             }
         } catch (e: Exception) {
