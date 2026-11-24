@@ -4,6 +4,8 @@ Computacion Movil - Universidad de Antioquia - 2026-II - Grupo 05
 
 Direccion del repositorio: https://github.com/Mista299/LabsCM20262-Gr05
 
+APK firmado de entrega: https://github.com/Mista299/LabsCM20262-Gr05/releases/tag/v1.0
+
 ---
 
 ## Integrantes

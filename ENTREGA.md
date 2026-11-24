@@ -7,6 +7,14 @@ Workers y consumo de servicios REST. Computacion Movil, Universidad de Antioquia
 
 https://github.com/Mista299/LabsCM20262-Gr05
 
+## APK firmado de entrega
+
+Release v1.0: https://github.com/Mista299/LabsCM20262-Gr05/releases/tag/v1.0
+
+El APK esta firmado con el almacen de claves `lab2-keystore.jks`, alias `lab2`,
+y se verifico con `apksigner verify`. El almacen de claves y las contrasenas no
+se versionan en el repositorio.
+
 ## Integrantes
 
 | Nombre | Cuenta de GitHub | Aporte |
