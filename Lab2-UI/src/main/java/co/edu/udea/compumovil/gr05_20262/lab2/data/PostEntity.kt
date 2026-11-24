@@ -4,7 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Entidad local (Room) que guarda un post descargado del servicio REST.
+ * Entidad local (Room) que guarda una publicacion descargada del servicio REST.
+ *
+ * El servicio REST utilizado es DummyJSON (https://dummyjson.com), que devuelve
+ * posts con contenido real en ingles y sin necesidad de registro ni clave de API.
+ *
  * El worker se encarga de refrescar estos datos periodicamente.
  */
 @Entity(tableName = "posts")
@@ -13,5 +17,8 @@ data class PostEntity(
     val userId: Int,
     val title: String,
     val body: String,
+    val tags: String,
+    val reactions: Int,
+    val views: Int,
     val syncedAt: Long = System.currentTimeMillis()
 )

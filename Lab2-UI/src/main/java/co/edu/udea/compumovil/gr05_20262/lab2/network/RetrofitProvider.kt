@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
  */
 object RetrofitProvider {
 
-    private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    private const val BASE_URL = "https://dummyjson.com/"
 
     val apiService: PostApiService by lazy {
         val logging = HttpLoggingInterceptor().apply {

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--
-        Archivo base de textos (espanol).
-        Maria Camila Berrio Pavas es la responsable de la internacionalizacion:
-        agregue aqui los textos de la interfaz y cree/actualice values-en/strings.xml
-        con la traduccion al ingles.
-    -->
     <string name="app_name">Lab2 Servicios</string>
     <string name="app_title">Lab2 Servicios REST</string>
 
@@ -16,6 +10,10 @@
     <string name="detail_title">Detalle</string>
     <string name="detail_author">Autor #%1$d</string>
     <string name="detail_not_found">No se encontró la publicación.</string>
+    <string name="detail_likes">Me gusta</string>
+    <string name="detail_likes_count">%1$d me gusta</string>
+    <string name="detail_views">Vistas</string>
+    <string name="detail_views_count">%1$d vistas</string>
 
     <string name="action_refresh">Actualizar ahora</string>
     <string name="action_back">Volver</string>

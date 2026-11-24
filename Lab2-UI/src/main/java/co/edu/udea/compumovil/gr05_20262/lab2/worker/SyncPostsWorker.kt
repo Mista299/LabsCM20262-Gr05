@@ -5,14 +5,15 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import co.edu.udea.compumovil.gr05_20262.lab2.data.DatabaseProvider
 import co.edu.udea.compumovil.gr05_20262.lab2.network.RetrofitProvider
+import co.edu.udea.compumovil.gr05_20262.lab2.network.toEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
  * Worker recurrente en segundo plano.
  *
- * Consume un servicio REST (https://jsonplaceholder.typicode.com/posts)
- * y guarda el resultado en la base de datos local (Room).
+ * Consume un servicio REST (https://dummyjson.com/posts) y guarda el resultado
+ * en la base de datos local (Room).
  *
  * Se programa cada 15 minutos con WorkManager (ver [SyncScheduler]).
  */
@@ -23,7 +24,8 @@ class SyncPostsWorker(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
-            val posts = RetrofitProvider.apiService.getPosts()
+            val response = RetrofitProvider.apiService.getPosts()
+            val posts = response.posts
             if (posts.isEmpty()) {
                 Result.success()
             } else {
@@ -33,7 +35,7 @@ class SyncPostsWorker(
                 val syncedAt = System.currentTimeMillis()
                 DatabaseProvider.get(applicationContext)
                     .postDao()
-                    .insertAll(posts.map { it.copy(syncedAt = syncedAt) })
+                    .insertAll(posts.map { it.toEntity(syncedAt) })
                 Result.success()
             }
         } catch (e: Exception) {

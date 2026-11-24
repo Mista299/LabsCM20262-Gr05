@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lab2 Services</string>
+    <string name="app_title">Lab2 REST Services</string>
+
+    <string name="list_title">Posts</string>
+    <string name="list_loading">Loading posts…</string>
+    <string name="list_hint">The worker refreshes the data in the background every 15 minutes.</string>
+
+    <string name="detail_title">Detail</string>
+    <string name="detail_author">Author #%1$d</string>
+    <string name="detail_not_found">Post not found.</string>
+    <string name="detail_likes">Likes</string>
+    <string name="detail_likes_count">%1$d likes</string>
+    <string name="detail_views">Views</string>
+    <string name="detail_views_count">%1$d views</string>
+
+    <string name="action_refresh">Refresh now</string>
+    <string name="action_back">Back</string>
+</resources>

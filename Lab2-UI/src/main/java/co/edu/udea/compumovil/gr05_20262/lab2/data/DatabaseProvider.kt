@@ -17,6 +17,12 @@ object DatabaseProvider {
                 context.applicationContext,
                 LabDatabase::class.java,
                 "lab2-db"
-            ).build().also { instance = it }
+            )
+                // El contenido de la base de datos es una copia cache del
+                // servicio REST, asi que se puede regenerar en el siguiente
+                // ciclo del worker. Por eso la migracion es destructiva.
+                .fallbackToDestructiveMigration()
+                .build()
+                .also { instance = it }
         }
 }

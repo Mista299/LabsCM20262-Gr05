@@ -27,7 +27,7 @@ interface PostDao {
     suspend fun clear()
 }
 
-@Database(entities = [PostEntity::class], version = 1, exportSchema = false)
+@Database(entities = [PostEntity::class], version = 2, exportSchema = false)
 abstract class LabDatabase : RoomDatabase() {
     abstract fun postDao(): PostDao
 }
