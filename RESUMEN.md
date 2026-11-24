@@ -45,7 +45,7 @@ SyncScheduler.schedule()  ----->  WorkManager programa SyncPostsWorker
         |                                  (cada 15 minutos, con red conectada)
         |                                          |
         |                                          v
-        |                          Retrofit: GET https://jsonplaceholder.typicode.com/posts
+        |                          Retrofit: GET https://dummyjson.com/posts
         |                                          |
         |                                          v
         |                          Room: se guardan las 100 publicaciones
@@ -81,12 +81,16 @@ worker mediante `OneTimeWorkRequest`.
 
 ### Consumo del servicio REST
 
-`PostApiService` declara el endpoint `GET /posts` como una funcion suspendida.
-`RetrofitProvider` construye el cliente con un `OkHttpClient` de veinte segundos de
-timeout de conexion y de lectura, y un interceptor de log de nivel `BASIC`.
+`PostApiService` declara el endpoint `GET /posts` como una funcion suspendida, con
+un parametro `limit`. `RetrofitProvider` construye el cliente con un `OkHttpClient`
+de veinte segundos de timeout de conexion y de lectura, y un interceptor de log de
+nivel `BASIC`.
 
-El servicio utilizado es JSONPlaceholder, un servicio publico de pruebas que no
-requiere registro ni clave de API. Devuelve cien publicaciones de ejemplo.
+El servicio utilizado es DummyJSON, un servicio publico de pruebas que no requiere
+registro ni clave de API. Devuelve publicaciones con contenido real en ingles, y
+cada una incluye etiquetas, reacciones y numero de vistas. La respuesta se
+deserializa en `PostsResponse` y se convierte a entidad con la funcion de
+extension `toEntity`.
 
 ### Persistencia local
 
@@ -117,6 +121,10 @@ modo claro o oscuro del sistema de forma automatica.
 Todos los textos visibles se obtienen mediante `stringResource`, nunca escritos en
 el codigo Kotlin. Por eso la aplicacion se adapta al idioma del dispositivo con
 los archivos `values/strings.xml` y `values-en/strings.xml`.
+
+La aplicacion declara sus idiomas soportados en `res/xml/locales_config.xml`, lo
+que hace que Android muestre la entrada "Idioma" en los ajustes del sistema para
+poder forzar el idioma sin cambiar el del telephone completo.
 
 ---
 

@@ -121,7 +121,7 @@ Detalles de la implementacion:
 
 ## Punto 7. Consumir un servicio web REST para complementar los datos
 
-**Requerido.** Consume el servicio publico JSONPlaceholder.
+**Requerido.** Consume el servicio publico DummyJSON.
 
 - `PostApiService` declara el endpoint `GET /posts` como una funcion `suspend`.
 - `RetrofitProvider` construye el cliente con un `OkHttpClient` de veinte segundos
@@ -141,7 +141,7 @@ pantalla.
 |----------|------|---------------|
 | Uso de workers y/o coroutine-workers | 30 % | `SyncPostsWorker` como `CoroutineWorker`, programado periodicamente con restricciones de red, con reintentos y con una ejecucion inmediata bajo demanda |
 | Al menos dos funcionalidades del ejemplo seleccionado | 40 % | Listado de publicaciones con navegacion al detalle, sincronizacion periodica en segundo plano, actualizacion manual, modo claro y oscuro, e internacionalizacion |
-| Realizar el punto 7 | 20 % | Consumo de JSONPlaceholder con Retrofit y persistencia en Room |
+| Realizar el punto 7 | 20 % | Consumo de DummyJSON con Retrofit y persistencia en Room |
 | Aspecto del diseno y el funcionamiento | 10 % | Material 3 con paleta propia, tarjetas, tipografia jerarquizada, estados de carga, y verificado en un dispositivo real |
 
 ## Punto 9. Notas importantes
@@ -234,7 +234,7 @@ tenga que hacer nada.
     con red conectada)                   |
               |                           |
               v                           |
-   Retrofit: GET jsonplaceholder...       |
+   Retrofit: GET dummyjson.com/posts       |
               |                           |
               v                           |
    Room: se guardan las publicaciones     |
@@ -268,12 +268,24 @@ worker mediante `OneTimeWorkRequest`.
 
 ## Consumo del servicio REST
 
-`PostApiService` declara el endpoint `GET /posts` como una funcion suspendida.
+`PostApiService` declara el endpoint `GET /posts` como una funcion suspendida, con
+un parametro `limit` que define cuantas publicaciones se descargan.
 `RetrofitProvider` construye el cliente con un `OkHttpClient` de veinte segundos de
 timeout de conexion y de lectura, y un interceptor de log de nivel `BASIC`.
 
-El servicio utilizado es JSONPlaceholder, un servicio publico de pruebas que no
-requiere registro ni clave de API. Devuelve cien publicaciones de ejemplo.
+El servicio utilizado es DummyJSON, un servicio publico de pruebas que no requiere
+registro ni clave de API. A diferencia de otros servicios de relleno, devuelve
+publicaciones con contenido real en ingles, y ademas cada una incluye
+etiquetas, reacciones y numero de vistas.
+
+El endpoint envuelve la coleccion en un objeto, por lo que la respuesta se
+deserializa en `PostsResponse`, que contiene la lista de publicaciones y el total
+disponible. La conversion a entidad la hace la funcion de extension `toEntity`,
+que concatena las etiquetas en una sola cadena.
+
+La base de datos local tiene version 2 y usa `fallbackToDestructiveMigration`, ya
+que su contenido es una copia cache del servicio y se regenera en el siguiente
+ciclo del worker.
 
 ## Persistencia local
 
@@ -307,6 +319,12 @@ Todos los textos visibles se obtienen mediante `stringResource`, nunca escritos 
 el codigo Kotlin. Por eso la aplicacion se adapta al idioma del dispositivo con
 los archivos `values/strings.xml` y `values-en/strings.xml`.
 
+Ademas, la aplicacion declara sus idiomas soportados en
+`res/xml/locales_config.xml` y lo referencia en el manifest con el atributo
+`android:localeConfig`. Gracias a eso, Android ofrece la entrada **Idioma** en los
+ajustes del sistema, dentro de la informacion de la aplicacion, desde donde el
+usuario puede forzar el idioma sin cambiar el del telephone completo.
+
 ---
 
 # Parte 3. Verificacion realizada en un dispositivo real
@@ -320,7 +338,7 @@ Android 14 (API 34). Se comprobo lo siguiente.
 | Inicio de la aplicacion | Correcto, la lista aparece con indicador de carga |
 | Worker programado en el sistema | Correcto, el trabajo figura como `RUNNABLE` en `dumpsys jobscheduler` |
 | Restricciones del trabajo | Correcto, `TIMING_DELAY` y `CONNECTIVITY` |
-| Peticion al servicio REST | Correcto, `GET https://jsonplaceholder.typicode.com/posts` responde `200` |
+| Peticion al servicio REST | Correcto, `GET https://dummyjson.com/posts` responde `200` |
 | Resultado del worker | Correcto, `Worker result SUCCESS` |
 | Descarga de las publicaciones | Correcto, 100 publicaciones |
 | Persistencia en Room | Correcto, tabla `posts` con 100 registros |
@@ -329,6 +347,7 @@ Android 14 (API 34). Se comprobo lo siguiente.
 | Retorno a la lista | Correcto |
 | Modo oscuro | Correcto, la paleta oscura se aplica de forma automatica |
 | Idioma ingles | Correcto, la interfaz cambia a ingles |
+| Selector de idioma por aplicacion | Correcto, aparece la entrada "Idioma" en los ajustes del sistema y permite forzar español o ingles |
 | Version firmada de entrega | Correcto, se instalo y ejecuto con la firma de entrega |
 | Pruebas unitarias | Todas pasan |
 
@@ -414,6 +433,7 @@ LabsCM20262-Gr05/
         │       ├── values/colors.xml
         │       ├── values/themes.xml
         │       ├── drawable/                 Vector del icono
+        │       ├── xml/locales_config.xml   Idiomas soportados por la app
         │       └── mipmap-anydpi-v26/        Icono adaptativo
         └── test/java/co/edu/udea/compumovil/gr05_20262/lab2/
             └── Lab2UnitTest.kt               Pruebas unitarias
@@ -595,4 +615,4 @@ El proyecto sigue los patrones de los codelabs oficiales de Android:
 - WorkManager with Compose
 
 El servicio REST utilizado es publico y de prueba:
-[JSONPlaceholder](https://jsonplaceholder.typicode.com/).
+[DummyJSON](https://dummyjson.com/).
