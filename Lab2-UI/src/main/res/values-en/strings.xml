@@ -17,4 +17,10 @@
 
     <string name="action_refresh">Refresh now</string>
     <string name="action_back">Back</string>
+
+    <string name="action_language">Change language</string>
+    <string name="language_dialog_title">Application language</string>
+    <string name="language_system">System default</string>
+    <string name="language_es">Español</string>
+    <string name="language_en">English</string>
 </resources>

@@ -17,4 +17,10 @@
 
     <string name="action_refresh">Actualizar ahora</string>
     <string name="action_back">Volver</string>
+
+    <string name="action_language">Cambiar idioma</string>
+    <string name="language_dialog_title">Idioma de la aplicación</string>
+    <string name="language_system">Predeterminado del sistema</string>
+    <string name="language_es">Español</string>
+    <string name="language_en">English</string>
 </resources>

@@ -52,6 +52,7 @@ fun PostListScreen(
             androidx.compose.material3.TopAppBar(
                 title = { Text(stringResource(R.string.list_title)) },
                 actions = {
+                    LanguageSelectorButton()
                     IconButton(onClick = { vm.refreshNow() }) {
                         Icon(
                             imageVector = Icons.Filled.Refresh,
